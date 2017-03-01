@@ -1,4 +1,3 @@
-```R
 library(plyr)  
 library(data.table)
 library(quantmod)
@@ -149,4 +148,3 @@ Normalized <- function(x){
 }
 N <- lapply(Wave_normalized,Normalized)
 
-```
