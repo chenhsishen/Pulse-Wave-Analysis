@@ -1,6 +1,6 @@
 ##Pulse-Wave-Analysis
  - 這是一個和新光醫院的麻醉科醫師，林佑霆醫師合作的專案，旨在分析麻醉病患的臨床生理訊號；由於現代醫學對於脈波辨識並沒有太多著墨，因此要借助資料科學的工具，來發展出一套可能的方法。
- - 由於這個專案是和其他三位同學共同完成，在徵求他們同意前，我只會放上我貢獻的[部分程式](https://github.com/chenhsishen/Pulse-Wave-Analysis/blob/master/Complete-Solution.md)，也就是從原始資料中自動辨識、擷取並標準化不同種類的波形。
+ - 由於這個專案是和其他三位同學共同完成，在徵求他們同意前，我只會放上我貢獻的[部分程式](https://github.com/chenhsishen/Pulse-Wave-Analysis/blob/master/Complete-Solution.R)，也就是從原始資料中自動辨識、擷取並標準化不同種類的波形。
  - 專案完成後我們認為利用機器學習的方式進行脈波辨識，進而判斷麻醉中病人的生理狀況是可行的，但完整的研究需要更多臨床上的協助。
  - 由於整個組都是「統計」相關背景的學生，我們自然選用R作為我們的工具。
  
@@ -25,7 +25,7 @@
  - 特別是這次的資料，又分成各種手術前後，病人的脈波更是會出現劇烈的變化，週期也比較難直觀地掌握。
  - 自動偵測週期以及正規化每一個波段，是這次專案的前處理中，比較有難度的地方。
  
-###[Solution - Fast Fourier Transform/ Local Minimum Discovery/ Normalization](https://github.com/chenhsishen/Pulse-Wave-Analysis/blob/master/Complete-Solution.md) 
+###[Solution - Fast Fourier Transform/ Local Minimum Discovery/ Normalization](https://github.com/chenhsishen/Pulse-Wave-Analysis/blob/master/Complete-Solution.R)
  - Step1: Fast Fourier Transform 能協助我們逼近一段波段(raw data)的主要週期
  - Step2: Local Minimum Discovery 將第一階段的結果代入，搜尋週期中的區域最小值，最為波和波之間的分割點
  - Step3: Normalization 選擇補上前後兩個點的平均值，利用內插法進行正規化
