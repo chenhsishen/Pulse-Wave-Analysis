@@ -26,6 +26,6 @@
  - 自動偵測週期以及正規化每一個波段，是這次專案的前處理中，比較有難度的地方。
  
 ###[Solution - Fast Fourier Transform/ Local Minimum Discovery/ Normalization](https://github.com/chenhsishen/Pulse-Wave-Analysis/blob/master/Complete-Solution.R)
- - Step1: Fast Fourier Transform 能協助我們逼近一段波段(raw data)的主要週期
+ - [Step1: Fast Fourier Transform](https://github.com/chenhsishen/Pulse-Wave-Analysis/blob/master/Fast%20Fourier%20Transform.md) 能協助我們逼近一段波段(raw data)的主要週期
  - Step2: Local Minimum Discovery 將第一階段的結果代入，搜尋週期中的區域最小值，最為波和波之間的分割點
  - Step3: Normalization 選擇補上前後兩個點的平均值，利用內插法進行正規化
