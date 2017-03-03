@@ -32,4 +32,29 @@ for(i in 1:length(raw_v)){
   } 
 ```
  - 這樣一來，我們就得到了真實的區域最小值的「位置向量」，接下來就可以用這結論去切割脈波了。
-
+ ![Imgur](http://i.imgur.com/cbEpPIN.png)
+ 
+###To Extract each wave from the data
+ - 雖然我們已經很逼近結果了，但還是有些細節要注意，主因是原始資料中，因為在資料搜集時的睏談，開頭和結尾的波段不會是完整的，要扣除這兩個波。
+ - 再來是如果中間突然出現異常的跳動(即並非正常的週期和震幅變化)，我們也選擇不將其納入我們準備訓練的資料中。
+```R
+cut_1 <- which(!raw_v %in% 0)
+  a <- list();length(a) <- length(cut_1)
+  a[[1]] <- raw[,2][1:cut_1[1]]
+  for(i in 2:length(cut_1)){
+    tryCatch({
+      a[[i]] <- raw[,2][c(cut_1[i]+1):c(cut_1[i+1]-1)] 
+    },error= function(y) y <- NULL)
+  }
+  l <- c()
+  for(i in 1:c(length(a)-1)){
+    l[i] <- length(a[[i]])
+  }
+  l <- l[-1]
+  for(i in 1:c(length(a)-1)){
+    a[[i]] <- a[[i]][1:min(l[!l%in%min(l)])]
+  }
+  aa <- ldply(a)
+  aa <- aa[-1,]
+  aa <- na.omit(aa)
+```
