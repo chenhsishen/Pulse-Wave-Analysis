@@ -38,23 +38,25 @@ for(i in 1:length(raw_v)){
  - 雖然我們已經很逼近結果了，但還是有些細節要注意，主因是原始資料中，因為在資料搜集時的睏談，開頭和結尾的波段不會是完整的，要扣除這兩個波。
  - 再來是如果中間突然出現異常的跳動(即並非正常的週期和震幅變化)，我們也選擇不將其納入我們準備訓練的資料中。
 ```R
-cut_1 <- which(!raw_v %in% 0)
-  a <- list();length(a) <- length(cut_1)
-  a[[1]] <- raw[,2][1:cut_1[1]]
+cut_1 <- which(!raw_v %in% 0)    #僅取出位置向量中不等於0的真實位置
+  a <- list();length(a) <- length(cut_1)  #將各個波的資料，存入一個叫a的list
+  a[[1]] <- raw[,2][1:cut_1[1]]
   for(i in 2:length(cut_1)){
     tryCatch({
-      a[[i]] <- raw[,2][c(cut_1[i]+1):c(cut_1[i+1]-1)] 
-    },error= function(y) y <- NULL)
+      a[[i]] <- raw[,2][c(cut_1[i]+1):c(cut_1[i+1]-1)]   #取出單個波
+    },error= function(y) y <- NULL)
   }
-  l <- c()
+  l <- c()      
   for(i in 1:c(length(a)-1)){
-    l[i] <- length(a[[i]])
-  }
-  l <- l[-1]
-  for(i in 1:c(length(a)-1)){
-    a[[i]] <- a[[i]][1:min(l[!l%in%min(l)])]
-  }
-  aa <- ldply(a)
-  aa <- aa[-1,]
-  aa <- na.omit(aa)
+    l[i] <- length(a[[i]])   #為了去除剛剛說的頭尾不完整的波形，所以要先獲得各個波的長度
+  }
+  }
+  l <- l[-1]  #去除第一個波
+  for(i in 1:c(length(a)-1)){
+    a[[i]] <- a[[i]][1:min(l[!l%in%min(l)])]  #在剩下的長度中，選出倒數第三小的，作為這些波統一的長度。
+  }
+  aa <- ldply(a)  #將list中的個元素合併成一個資料集。
+  aa <- aa[-1,]
+  aa <- na.omit(aa)
 ```
+###最後的這個資料集，裡面就有多筆觀測值，每筆觀測值就是一個波在各個時間點記錄到的脈搏。下一篇會說明如何將不同人的脈波資料正規化，在不更動形狀的情況下，幫助我們訓練辨識脈波的模型。
