@@ -30,3 +30,17 @@ Normalized <- function(x){
 
 ```
 
+### Comparison between Un-normalized and Normalized
+ - 標準化後和標準化前的波，我們來用下面兩張圖比較：
+ - 標準化前：
+ ![Imgur](http://i.imgur.com/fXo4QTC.jpg)
+ - 標準化後：
+ ![Imgur](http://i.imgur.com/6xtjoya.jpg)
+ - 有沒有發現，其實看不太出來差異呢！這就是我要的！！！
+
+### Final Result
+ - 最後把各個病人和在不同狀態的波形整理出來，我們總共得到下面18個波：(由此可見，我們得到的樣本真的很有限吧！)
+ ![Imgur](http://i.imgur.com/yjXYn3x.jpg)
+ 
+###透過這些處理後，我們就能把資料做後續的建模和視覺化囉！之後和組員討論，有機會再把後續的程式放上來；至於把這些程式接起來後的程式碼，我放在[這邊](https://github.com/chenhsishen/Pulse-Wave-Analysis/blob/master/Complete-Solution.R)。
+###裡面有一部分沒有做到標準化，只有進行切波，是因為後續某項處理要保留時間維度(即每0.02秒為一筆資料的維度)
