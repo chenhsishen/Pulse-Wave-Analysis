@@ -1,6 +1,6 @@
 ##Waveform Normalization
 - 這裡在做的事情，算是資料專案中「粗活」。因為不同病人的脈波週期不同，若要一起訓練，就得在資料中做一些取捨，最後們決定，去除週期較大的尾端的部分；週期較小的，就利用內插法補齊。
-- 而這裡說的內插法，只是補上前後兩個值的平均這麼簡單而已；先計算出週期間的差異，再等比例內插至週期較小的波中。
+- 而這裡說的內插法，只是補上前後兩個值的平均這麼簡單而已；先計算出週期間的差異，再等比例內插至週期較小的波中；除了週期長度以外，振幅高度也要乘上同樣內插前後相差的比例。
 - 至於哪樣叫週期大、哪樣叫週期小，是我經過嘗試後，以內插的比例不會破壞波形原本的形狀為主。
 
 ###Normalization with Interpolation
@@ -14,18 +14,19 @@ Normalized <- function(x){
   a_1_new_r <- c()
   for(j in 1:length(a_list)){
     a_1 <- x[j,]
-    ifelse(length(x) > 400,seq <- round(seq(1,ncol(a_1),by=c((ncol(a_1)-1)/(800-ncol(a_1))))),
-           seq <- round(seq(1,ncol(a_1),by=c((ncol(a_1)-1)/(450-ncol(a_1))))))
-    a_1_new <- a_1
+    ifelse(length(x) > 400,seq <- round(seq(1,ncol(a_1),by=c((ncol(a_1)-1)/(800-ncol(a_1))))),   #這邊的seq，是按比例內插所需要的「位置」向量
+           seq <- round(seq(1,ncol(a_1),by=c((ncol(a_1)-1)/(450-ncol(a_1))))))  #至於為什麼要用400和800，就如同上面所說的，是嘗試之後的結果
+    a_1_new <- a_1
     for(i in 1:length(seq)){
-      a_1_new <- cbind(a_1_new[,1:seq[i]],mean(c(a_1_new[,seq[i]],a_1_new[,seq[i]+1]))
-                       ,a_1_new[,c(seq[i]+1):ncol(a_1_new)])
+      a_1_new <- cbind(a_1_new[,1:seq[i]],mean(c(a_1_new[,seq[i]],a_1_new[,seq[i]+1]))  #接著就按照位置向量，將其後兩個值的平均插入
+                      ,a_1_new[,c(seq[i]+1):ncol(a_1_new)])
     }
-    a_1_new_r <- a_1_new*c(length(a_1_new)/ncol(a_1))
-    a_list[[j]] <- a_1_new_r
+    a_1_new_r <- a_1_new*c(length(a_1_new)/ncol(a_1)) #將波的振幅高度按比例提高
+    a_list[[j]] <- a_1_new_r
   }
-  a_data <- ldply(a_list)
-  a_data
+  a_data <- ldply(a_list)   #將資料合併為一個資料集，並回傳這個資料集
+  a_data
 }
 
 ```
+
